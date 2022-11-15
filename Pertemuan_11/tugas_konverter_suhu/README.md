@@ -1,4 +1,4 @@
 # tugas_konverter_suhu
 
-![My Image](ss.jpeg)
+![My Image](ss.jpg)
 
