@@ -1,275 +1,118 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:tugas_konverter_suhu/widgets/Suhu.dart';
+import 'package:tugas_konverter_suhu/widgets/ConvertButton.dart';
+import 'package:tugas_konverter_suhu/widgets/InputUser.dart';
+import 'package:tugas_konverter_suhu/widgets/HistoryUser.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
 class MyApp extends StatefulWidget {
-  const MyApp({super.key});
+  MyApp({Key? key}) : super(key: key);
 
   @override
   State<MyApp> createState() => _MyAppState();
 }
 
 class _MyAppState extends State<MyApp> {
-  var items = ['Kelvin', 'Reamor', 'Farenheit', 'Semua'];
+  TextEditingController input_user = TextEditingController();
+  double kelvin = 0, reamur = 0, input = 0;
+  double hasil = 0;
 
-  String dropdownvalue = 'Kelvin';
-  String? selectedValue;
-  double celcius = 0;
-  double kelvin = 0;
-  double reamor = 0;
-  double farenheit = 0;
-  double output = 0;
-  double output1 = 0;
-  double output2 = 0;
-  double output3 = 0;
-  List<String> listViewItem1 = <String>[];
-  List<String> listViewItem2 = <String>[];
-  List<String> listViewItem3 = <String>[];
-  List<String> listViewItem4 = <String>[];
-  TextEditingController inputSuhu = TextEditingController();
+  String selctDropdown = "Reamur";
+  List<String> NamaSuhu = ["Kelvin", "Reamur", "Fahrenheit"];
+  List<String> History = [];
 
-  konversi() {
-    setState(() {
-      celcius = double.parse(inputSuhu.text);
-      if (dropdownvalue == 'Kelvin') {
-        output = 273.15 + celcius;
-        reamor = 0;
-        farenheit = 0;
-        kelvin = output;
-      } else if (dropdownvalue == 'Reamor') {
-        output = 4 / 5 * celcius;
-        reamor = output;
-        farenheit = 0;
-        kelvin = 0;
-      } else if (dropdownvalue == 'Farenheit') {
-        output = (9 / 5 * celcius) + 32;
-        reamor = 0;
-        farenheit = output;
-        kelvin = 0;
-      } else {
-        output1 = 273.15 + celcius;
-        output2 = 4 / 5 * celcius;
-        output3 = (9 / 5 * celcius) + 32;
-        reamor = output2;
-        farenheit = output3;
-        kelvin = output1;
-      }
-      listViewItem1.add('$reamor');
-      listViewItem2.add('$kelvin');
-      listViewItem3.add('$farenheit');
-      listViewItem4.add('$celcius');
+  void onDropChange(Object? value) {
+    return setState(() {
+      selctDropdown = value.toString();
+      input_user.text.isNotEmpty;
     });
   }
+
+  void Konversi() {
+    return setState(() {
+      if (input_user.text.isNotEmpty) {
+        switch (selctDropdown) {
+          case "Kelvin":
+            hasil = double.parse(input_user.text) + 273;
+            break;
+
+          case "Reamur":
+            hasil = double.parse(input_user.text) * 4 / 5;
+            break;
+
+          case "Fahrenheit":
+            hasil = double.parse(input_user.text) * 9 / 5 + 32;
+            break;
+          default:
+        }
+        History.add(selctDropdown + " : " + hasil.toString());
+      }
+    });
+  }
+
+  double currentSuhu = 0;
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Konversi suhu',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
       home: Scaffold(
-        resizeToAvoidBottomInset: false,
         appBar: AppBar(
-          title: const Text('Konversi Suhu'),
+          title: const Center(child: Text('Konverter Suhu')),
         ),
-        body: Column(
-          children: <Widget>[
-            Expanded(
-              flex: 2,
-              child: Container(
-                margin: const EdgeInsets.fromLTRB(10, 0, 10, 0),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    Container(child: inputan()),
-                    Container(
-                      child: dropDown(),
-                    ),
-                    Container(
-                      child: outputSuhu(),
-                    ),
-                    Container(
-                      child: buttonSubmit(),
-                    ),
-                  ],
-                ),
+        body: Container(
+          padding: EdgeInsets.only(left: 10, right: 10, top: 10),
+          child: Column(
+            children: [
+              Slider(
+                  value: currentSuhu,
+                  max: 100,
+                  divisions: 100,
+                  label: currentSuhu.round().toString(),
+                  onChanged: (double value) {
+                    setState(() {
+                      currentSuhu = value;
+                      input_user.text = currentSuhu.toString();
+                    });
+                  }),
+              Suhu(
+                selctDropdown: selctDropdown,
+                NamaSuhu: NamaSuhu,
+                onDropChange: onDropChange,
               ),
-            ),
-            const Expanded(
-              flex: 0,
-              child: Text(
-                'Riwayat Konversi',
+              SizedBox(
+                height: 20,
+              ),
+              Text(
+                'Hasil',
                 style: TextStyle(fontSize: 20),
               ),
-            ),
-            const SizedBox(
-              height: 15,
-            ),
-            Expanded(
-              flex: 2,
-              child: listHasil(),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  inputan() {
-    return TextFormField(
-      controller: inputSuhu,
-      keyboardType: TextInputType.number,
-      decoration: const InputDecoration(
-        border: UnderlineInputBorder(),
-        labelText: 'Masukan Suhu Dalam Celcius',
-      ),
-    );
-  }
-
-  dropDown() {
-    return DropdownButton(
-      value: dropdownvalue,
-      icon: const Icon(Icons.keyboard_arrow_down),
-      items: items.map((String items) {
-        return DropdownMenuItem(
-          value: items,
-          child: Text(items),
-        );
-      }).toList(),
-      onChanged: (String? newValue) {
-        setState(() {
-          dropdownvalue = newValue!;
-        });
-      },
-    );
-  }
-
-  outputSuhu() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: [
-        Expanded(
-          flex: 1,
-          child: Column(
-            children: [
-              const Text('Suhu dalam Reamur',
-                  style: TextStyle(
-                    fontSize: 15,
-                  ),
-                  textAlign: TextAlign.center),
-              const SizedBox(height: 20),
               Text(
-                "$reamor",
-                style: const TextStyle(fontSize: 25),
-              )
+                "$hasil",
+                style: TextStyle(fontSize: 40),
+              ),
+              SizedBox(
+                height: 30,
+              ),
+              ConvertButton(
+                konversi: Konversi,
+              ),
+              SizedBox(
+                height: 30,
+              ),
+              Text(
+                "Riwayat Konversi ",
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              ),
+              SizedBox(
+                height: 30,
+              ),
+              HistoryUser(history: History)
             ],
           ),
-        ),
-        Expanded(
-          flex: 1,
-          child: Column(
-            children: [
-              const Text(
-                'Suhu dalam \nKelvin',
-                style: TextStyle(fontSize: 15),
-                textAlign: TextAlign.center,
-              ),
-              const SizedBox(height: 20),
-              Text(
-                "$kelvin",
-                style: const TextStyle(fontSize: 25),
-              )
-            ],
-          ),
-        ),
-        Expanded(
-          flex: 1,
-          child: Column(
-            children: [
-              const Text('Suhu dalam \nFahrenheit',
-                  style: TextStyle(fontSize: 15), textAlign: TextAlign.center),
-              const SizedBox(height: 20),
-              Text(
-                "$farenheit",
-                style: const TextStyle(fontSize: 25),
-              )
-            ],
-          ),
-        ),
-      ],
-    );
-  }
-
-  buttonSubmit() {
-    return SizedBox(
-        width: double.infinity,
-        child: ElevatedButton(
-          child: const Text('Submit'),
-          onPressed: () => konversi(),
-        ));
-  }
-
-  listHasil() {
-    return SizedBox(
-      height: 120,
-      child: ListView.builder(
-        shrinkWrap: true,
-        itemCount: listViewItem4.length,
-        itemBuilder: (context, index) => Container(
-          decoration:
-              BoxDecoration(border: Border.all(color: Colors.lightBlueAccent)),
-          margin: const EdgeInsets.fromLTRB(0, 0, 0, 10),
-          child: Row(children: <Widget>[
-            Expanded(
-              flex: 4,
-              child: Column(
-                children: [Text((index + 1).toString())],
-              ),
-            ),
-            Expanded(
-              flex: 10,
-              child: Row(
-                children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: const [
-                      Text(
-                        'Celcius',
-                        style:
-                            TextStyle(fontWeight: FontWeight.bold, height: 2),
-                      ),
-                      Text(
-                        'Reamur\t',
-                      ),
-                      Text('Kelvin\t'),
-                      Text('Fahrenheit\t'),
-                      SizedBox(
-                        height: 10,
-                      )
-                    ],
-                  ),
-                  Column(children: const [
-                    Text('=\t'),
-                    Text('=\t'),
-                    Text('=\t'),
-                    Text('=\t'),
-                  ]),
-                  Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(listViewItem4.elementAt(index)),
-                        Text(listViewItem1.elementAt(index)),
-                        Text(listViewItem2.elementAt(index)),
-                        Text(listViewItem3.elementAt(index)),
-                      ]),
-                ],
-              ),
-            ),
-          ]),
         ),
       ),
     );
