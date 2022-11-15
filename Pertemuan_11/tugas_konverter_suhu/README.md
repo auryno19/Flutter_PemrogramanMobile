@@ -4,4 +4,4 @@ A new Flutter project.
 
 Berikut output dari program diatas 
 
-![My Image](screenshot.jpg)
+![My Image](ss.jpg))
