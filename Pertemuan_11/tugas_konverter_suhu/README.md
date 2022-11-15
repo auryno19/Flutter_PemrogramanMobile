@@ -1,7 +1,9 @@
 # tugas_konverter_suhu
 
-A new Flutter project.
+![My Image](ss.jpeg)
 
-Berikut output dari program diatas 
 
+<<<<<<< HEAD
 ![My Image](ss.jpg))
+=======
+>>>>>>> 5b42834b673ba7b540fe5f59dbd79ed8e546cdc8
