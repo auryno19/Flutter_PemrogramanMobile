@@ -1,5 +1,5 @@
 # tugas_konverter_suhu
 
-![alt text](ss.jpg)
+![My Image](ss.jpg)
 
 
