@@ -26,7 +26,7 @@ class Item_page extends StatelessWidget{
               Navigator.pop(context);
             },
           ),
-          title: const Text('My List - ANANDA AYU SEKAR'),
+          title: const Text('Shopping List'),
         ),
         body: Container(
           margin: const EdgeInsets.all(8),
