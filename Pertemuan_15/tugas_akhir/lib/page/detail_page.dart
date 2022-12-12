@@ -134,9 +134,9 @@ class _DetailPageState extends State<DetailPage> {
                         } else {
                           if (snapshot.hasData) {
                             return Text(
-                                "Total pemasukan : Rp. ${snapshot.data.toString()}");
+                                "Saldo Saat ini : Rp. ${snapshot.data.toString()}");
                           } else {
-                            return Text("Total pemasukan: Rp. 0");
+                            return Text("Saldo Saat ini: Rp. 0");
                           }
                         }
                       },
