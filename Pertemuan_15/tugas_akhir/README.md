@@ -2,8 +2,8 @@
 
 ![My Image](register.jpg)
 
-![My Image](2.png)
+![My Image](login.jpg)
 
-![My Image](3.png)
+![My Image](home.jpg)
 
-![My Image](4.png)
+![My Image](uang masuk.jpg)
