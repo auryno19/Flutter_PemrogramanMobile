@@ -6,4 +6,8 @@
 
 ![My Image](home.jpg)
 
-![My Image](uang masuk.jpg)
+![My Image](uang_masuk.jpg)
+
+![My Image](uang_keluar.jpg)
+
+![My Image](setting.jpg)
