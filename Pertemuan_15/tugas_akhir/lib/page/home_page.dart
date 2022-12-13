@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tugas_akhir/db/database_instance.dart';
+import 'package:tugas_akhir/page/Login_page.dart';
 import 'package:tugas_akhir/page/create_page.dart';
 import 'package:tugas_akhir/page/detail_page.dart';
 import 'package:tugas_akhir/page/setting_page.dart';
@@ -64,7 +65,8 @@ class _HomePageState extends State<HomePage> {
                           var masuk = FutureBuilder(
                             future: databaseInstance!.totalPemasukan(),
                             builder: (context, snapshot) {
-                              if (snapshot.connectionState == ConnectionState.waiting) {
+                              if (snapshot.connectionState ==
+                                  ConnectionState.waiting) {
                                 return Text("-");
                               } else {
                                 if (snapshot.hasData) {
@@ -81,7 +83,6 @@ class _HomePageState extends State<HomePage> {
                       }
                     },
                   ),
-
                   SizedBox(
                     height: 20,
                   ),
@@ -199,6 +200,15 @@ class _HomePageState extends State<HomePage> {
             )),
           ),
         ),
+      ),
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: () {
+          Navigator.push(
+          context, MaterialPageRoute(builder: (context) => LoginPage()));
+        },
+          label: Text('Log Out'),
+          icon: Icon(Icons.logout_outlined),
+        
       ),
     );
   }
