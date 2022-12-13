@@ -10,4 +10,6 @@
 
 ![My Image](uang_keluar.jpg)
 
+![My Image](detil.jpg)
+
 ![My Image](setting.jpg)
