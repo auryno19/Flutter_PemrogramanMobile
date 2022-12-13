@@ -29,6 +29,7 @@ class DatabaseInstance {
   Future<Database> _initDatabase() async {
     Directory databaseDirectory = await getApplicationDocumentsDirectory();
     String path = join(databaseDirectory.path, databaseName);
+    print('db location : '+ path);
     print('database init');
     return openDatabase(path, version: databaseVersion, onCreate: _onCreate);
   }
